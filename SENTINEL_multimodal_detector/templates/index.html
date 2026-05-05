@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SENTINEL — Multimodal Deepfake & Fake News Detector</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+<div class="scanline"></div>
+<div class="noise"></div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 40 40" fill="none">
+          <polygon points="20,2 38,11 38,29 20,38 2,29 2,11" stroke="currentColor" stroke-width="2" fill="none"/>
+          <polygon points="20,8 32,14 32,26 20,32 8,26 8,14" stroke="currentColor" stroke-width="1" fill="none" opacity="0.5"/>
+          <circle cx="20" cy="20" r="5" fill="currentColor"/>
+          <line x1="20" y1="2" x2="20" y2="8" stroke="currentColor" stroke-width="2"/>
+          <line x1="20" y1="32" x2="20" y2="38" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="logo-text">
+        <span class="logo-main">SENTINEL</span>
+        <span class="logo-sub">MULTIMODAL DETECTION SYSTEM v2.0</span>
+      </div>
+    </div>
+    <nav class="nav-pills">
+      <span class="pill pill--active" data-tab="text">TEXT</span>
+      <span class="pill" data-tab="image">IMAGE</span>
+      <span class="pill" data-tab="video">VIDEO</span>
+      <span class="pill" data-tab="url">URL</span>
+    </nav>
+    <div class="status-indicator">
+      <div class="status-dot"></div>
+      <span>ONLINE</span>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <h1 class="hero-title">
+      <span class="hero-line1">DETECT.</span>
+      <span class="hero-line2">ANALYZE.</span>
+      <span class="hero-line3">EXPOSE.</span>
+    </h1>
+    <p class="hero-desc">Advanced AI detection combining NLP linguistic analysis with Computer Vision forensics. Powered by multimodal fusion with cross-modal inconsistency detection.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-val">94.2%</span>
+        <span class="stat-label">NLP Accuracy</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-val">92.1%</span>
+        <span class="stat-label">CV Accuracy</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-val">97.3%</span>
+        <span class="stat-label">Fusion Accuracy</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN INTERFACE -->
+<main class="main-grid">
+
+  <!-- LEFT: INPUT PANEL -->
+  <section class="panel panel--input" id="inputPanel">
+    
+    <!-- TEXT TAB -->
+    <div class="tab-content active" id="tab-text">
+      <div class="panel-header">
+        <h2 class="panel-title"><span class="accent">01</span> TEXT ANALYSIS</h2>
+        <p class="panel-desc">Paste article text, social media posts, or any written content for linguistic credibility analysis.</p>
+      </div>
+      <textarea id="textInput" class="text-input" placeholder="Paste article text, social media post, or any written content here...&#10;&#10;The system will analyze:&#10;• Emotional manipulation patterns&#10;• Logical fallacies&#10;• Stylometric inconsistencies&#10;• Credibility signals&#10;• Sensationalism markers" rows="12"></textarea>
+      <div class="input-meta">
+        <span id="charCount" class="char-count">0 characters</span>
+        <button class="btn-clear" onclick="document.getElementById('textInput').value='';updateCharCount()">CLEAR</button>
+      </div>
+      <button class="btn-analyze" id="analyzeText" onclick="analyzeText()">
+        <span class="btn-icon">▶</span> ANALYZE TEXT
+      </button>
+    </div>
+
+    <!-- IMAGE TAB -->
+    <div class="tab-content" id="tab-image">
+      <div class="panel-header">
+        <h2 class="panel-title"><span class="accent">01</span> IMAGE ANALYSIS</h2>
+        <p class="panel-desc">Upload images for deepfake detection using ELA forensics, noise analysis, and compression artifact detection.</p>
+      </div>
+      <div class="dropzone" id="imageDropzone" onclick="document.getElementById('imageFile').click()">
+        <input type="file" id="imageFile" accept=".png,.jpg,.jpeg,.gif,.webp,.bmp" style="display:none" onchange="handleImageFile(this)">
+        <div class="drop-content" id="imageDropContent">
+          <div class="drop-icon">⬡</div>
+          <p>DROP IMAGE HERE</p>
+          <p class="drop-sub">PNG, JPG, WEBP, GIF, BMP (max 50MB)</p>
+        </div>
+        <img id="imagePreview" class="img-preview" style="display:none">
+      </div>
+      <label class="optional-label">Optional: Add accompanying text</label>
+      <textarea id="imageText" class="text-input text-input--sm" placeholder="Add article text or caption accompanying this image..." rows="3"></textarea>
+      <button class="btn-analyze" id="analyzeImage" onclick="analyzeImage()">
+        <span class="btn-icon">▶</span> ANALYZE IMAGE
+      </button>
+    </div>
+
+    <!-- VIDEO TAB -->
+    <div class="tab-content" id="tab-video">
+      <div class="panel-header">
+        <h2 class="panel-title"><span class="accent">01</span> VIDEO ANALYSIS</h2>
+        <p class="panel-desc">Upload videos for temporal consistency analysis, face-swap detection, and motion pattern analysis.</p>
+      </div>
+      <div class="dropzone" id="videoDropzone" onclick="document.getElementById('videoFile').click()">
+        <input type="file" id="videoFile" accept=".mp4,.avi,.mov,.mkv,.webm" style="display:none" onchange="handleVideoFile(this)">
+        <div class="drop-content" id="videoDropContent">
+          <div class="drop-icon">◈</div>
+          <p>DROP VIDEO HERE</p>
+          <p class="drop-sub">MP4, AVI, MOV, MKV, WEBM (max 50MB)</p>
+        </div>
+        <video id="videoPreview" class="img-preview" controls style="display:none"></video>
+      </div>
+      <label class="optional-label">Optional: Add transcript or description</label>
+      <textarea id="videoText" class="text-input text-input--sm" placeholder="Add video transcript, description, or title..." rows="3"></textarea>
+      <button class="btn-analyze" id="analyzeVideo" onclick="analyzeVideo()">
+        <span class="btn-icon">▶</span> ANALYZE VIDEO
+      </button>
+    </div>
+
+    <!-- URL TAB -->
+    <div class="tab-content" id="tab-url">
+      <div class="panel-header">
+        <h2 class="panel-title"><span class="accent">01</span> URL ANALYSIS</h2>
+        <p class="panel-desc">Enter a URL to automatically extract and analyze the text content of any web article.</p>
+      </div>
+      <div class="url-input-group">
+        <span class="url-prefix">https://</span>
+        <input type="url" id="urlInput" class="url-input" placeholder="www.example.com/article...">
+      </div>
+      <div class="url-examples">
+        <span class="example-label">Examples:</span>
+        <span class="example-url" onclick="setUrl('https://www.bbc.com/news')">bbc.com/news</span>
+        <span class="example-url" onclick="setUrl('https://apnews.com')">apnews.com</span>
+      </div>
+      <button class="btn-analyze" id="analyzeUrl" onclick="analyzeUrl()">
+        <span class="btn-icon">▶</span> FETCH & ANALYZE
+      </button>
+    </div>
+
+  </section>
+
+  <!-- RIGHT: RESULTS PANEL -->
+  <section class="panel panel--results" id="resultsPanel">
+    
+    <!-- Idle state -->
+    <div class="idle-state" id="idleState">
+      <div class="idle-icon">
+        <svg viewBox="0 0 80 80" fill="none">
+          <polygon points="40,4 76,22 76,58 40,76 4,58 4,22" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.3"/>
+          <polygon points="40,14 66,27 66,53 40,66 14,53 14,27" stroke="currentColor" stroke-width="1" fill="none" opacity="0.2"/>
+          <circle cx="40" cy="40" r="10" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.4"/>
+          <circle cx="40" cy="40" r="3" fill="currentColor" opacity="0.5"/>
+        </svg>
+      </div>
+      <p class="idle-title">AWAITING INPUT</p>
+      <p class="idle-sub">Select an input type and provide content to begin analysis</p>
+    </div>
+
+    <!-- Loading state -->
+    <div class="loading-state" id="loadingState" style="display:none">
+      <div class="loading-rings">
+        <div class="ring ring1"></div>
+        <div class="ring ring2"></div>
+        <div class="ring ring3"></div>
+        <div class="ring-center">AI</div>
+      </div>
+      <p class="loading-text" id="loadingText">INITIALIZING ANALYSIS...</p>
+      <div class="loading-steps" id="loadingSteps"></div>
+    </div>
+
+    <!-- Results -->
+    <div class="results-container" id="resultsContainer" style="display:none">
+
+      <!-- Verdict Banner -->
+      <div class="verdict-banner" id="verdictBanner">
+        <div class="verdict-header">
+          <span class="verdict-label">VERDICT</span>
+          <span class="verdict-badge" id="riskBadge">—</span>
+        </div>
+        <div class="verdict-main" id="verdictMain">—</div>
+        <div class="verdict-probs">
+          <div class="prob-bar-wrap">
+            <div class="prob-label">FAKE</div>
+            <div class="prob-bar-bg">
+              <div class="prob-bar prob-bar--fake" id="fakeBar"></div>
+            </div>
+            <div class="prob-val" id="fakeVal">0%</div>
+          </div>
+          <div class="prob-bar-wrap">
+            <div class="prob-label">AUTHENTIC</div>
+            <div class="prob-bar-bg">
+              <div class="prob-bar prob-bar--auth" id="authBar"></div>
+            </div>
+            <div class="prob-val" id="authVal">0%</div>
+          </div>
+        </div>
+        <div class="confidence-row">
+          <span>Confidence: <strong id="confVal">—</strong></span>
+          <span>Cross-modal gap: <strong id="crossVal">—</strong></span>
+        </div>
+      </div>
+
+      <!-- Module Cards -->
+      <div class="module-cards">
+
+        <!-- NLP Card -->
+        <div class="module-card" id="nlpCard">
+          <div class="card-header">
+            <span class="card-tag">NLP</span>
+            <span class="card-title">LINGUISTIC ANALYSIS</span>
+            <span class="card-score" id="nlpScore">—</span>
+          </div>
+          <div class="card-body" id="nlpBody">
+            <p class="no-data">No text analyzed</p>
+          </div>
+        </div>
+
+        <!-- CV Card -->
+        <div class="module-card" id="cvCard">
+          <div class="card-header">
+            <span class="card-tag">CV</span>
+            <span class="card-title">VISUAL FORENSICS</span>
+            <span class="card-score" id="cvScore">—</span>
+          </div>
+          <div class="card-body" id="cvBody">
+            <p class="no-data">No visual content analyzed</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Reasoning -->
+      <div class="reasoning-section">
+        <h3 class="section-title">ANALYSIS REASONING</h3>
+        <ul class="reasoning-list" id="reasoningList"></ul>
+      </div>
+
+      <!-- Recommendations -->
+      <div class="actions-section">
+        <h3 class="section-title">RECOMMENDED ACTIONS</h3>
+        <ul class="actions-list" id="actionsList"></ul>
+      </div>
+
+      <!-- TTS + Report Row -->
+      <div class="bottom-actions">
+        <button class="btn-secondary" id="ttsBtn" onclick="playTTS()">
+          🔊 HEAR ANALYSIS
+        </button>
+        <button class="btn-secondary" onclick="downloadReport()">
+          ⬇ DOWNLOAD REPORT
+        </button>
+        <button class="btn-secondary" onclick="resetResults()">
+          ↺ NEW ANALYSIS
+        </button>
+      </div>
+
+      <audio id="ttsAudio" style="display:none"></audio>
+
+    </div>
+
+  </section>
+
+</main>
+
+<!-- HISTORY PANEL -->
+<section class="history-section">
+  <h2 class="section-title section-title--lg">ANALYSIS HISTORY</h2>
+  <div class="history-grid" id="historyGrid">
+    <div class="history-empty">No analyses yet</div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section">
+  <h2 class="how-title">HOW SENTINEL WORKS</h2>
+  <div class="pipeline">
+    <div class="pipeline-step">
+      <div class="step-num">01</div>
+      <div class="step-icon">📥</div>
+      <div class="step-name">INGEST</div>
+      <div class="step-desc">Text, images, video, or URLs are ingested and preprocessed</div>
+    </div>
+    <div class="pipeline-arrow">→</div>
+    <div class="pipeline-step">
+      <div class="step-num">02</div>
+      <div class="step-icon">🧠</div>
+      <div class="step-name">NLP MODULE</div>
+      <div class="step-desc">DistilBERT analyzes linguistic patterns, fallacies, and emotional manipulation</div>
+    </div>
+    <div class="pipeline-arrow">→</div>
+    <div class="pipeline-step">
+      <div class="step-num">03</div>
+      <div class="step-icon">👁</div>
+      <div class="step-name">CV MODULE</div>
+      <div class="step-desc">ResNet-50 + ELA forensics detect deepfakes and visual manipulation</div>
+    </div>
+    <div class="pipeline-arrow">→</div>
+    <div class="pipeline-step">
+      <div class="step-num">04</div>
+      <div class="step-icon">⚡</div>
+      <div class="step-name">FUSION</div>
+      <div class="step-desc">Confidence-weighted multimodal fusion with cross-modal inconsistency detection</div>
+    </div>
+    <div class="pipeline-arrow">→</div>
+    <div class="pipeline-step">
+      <div class="step-num">05</div>
+      <div class="step-icon">📊</div>
+      <div class="step-name">VERDICT</div>
+      <div class="step-desc">Final verdict with probability scores, reasoning, and actionable recommendations</div>
+    </div>
+  </div>
+</section>
+
+<script src="/static/js/main.js"></script>
+</body>
+</html>
