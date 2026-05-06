@@ -3,7 +3,11 @@ Multimodal Fake News & Deepfake Detection System
 Flask Backend — REST API
 """
 
+# Disable CUDA and set up environment BEFORE importing PyTorch
 import os
+os.environ['CUDA_VISIBLE_DEVICES'] = ''
+os.environ['TF_CPP_LOGGING_LEVEL'] = '3'
+
 import json
 import uuid
 import time

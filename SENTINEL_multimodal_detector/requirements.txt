@@ -6,6 +6,10 @@ scikit-learn>=1.3.0
 gtts>=2.4.0
 requests>=2.31.0
 werkzeug>=3.0.0
-# Optional for better video analysis:
-# opencv-python-headless>=4.8.0
-# moviepy>=1.0.3
+# Real AI Models
+torch>=2.0.0
+transformers>=4.30.0
+sentence-transformers>=2.2.0
+torchvision>=0.15.0
+opencv-python-headless>=4.8.0
+scipy>=1.11.0
